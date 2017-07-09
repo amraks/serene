@@ -5,4 +5,4 @@ from controllers.health import monitor
 app = Flask("serene")
 app.register_blueprint(root)
 app.register_blueprint(monitor)
-app.run(debug=True)
+app.run(host="0.0.0.0", debug=True)

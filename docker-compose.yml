@@ -1,18 +1,22 @@
 version: '2'
 services:
   app:
+    depends_on:
+    - postgres
     build:
       context: ./serene
       dockerfile: docker/app/Dockerfile
     volumes:
-      - /srv/docker/app:/var/lib/app
+    - /srv/docker/app:/var/lib/app
+    ports:
+    - 5000:5000
   postgres:
     build:
       context: ./serene
       dockerfile: docker/postgres/Dockerfile
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=serene
+    - POSTGRES_USER=postgres
+    - POSTGRES_PASSWORD=postgres
+    - POSTGRES_DB=serene
     volumes:
-      - /srv/docker/postgresql:/var/lib/postgresql
+    - /srv/docker/postgresql:/var/lib/postgresql

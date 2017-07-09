@@ -4,4 +4,4 @@ ADD app /srv/serene/app
 ADD docker/app/requirements.txt .
 RUN pip install -r requirements.txt
 
-CMD ["/bin/ash"]
+ENTRYPOINT ["python", "/srv/serene/app/run.py"]
