@@ -1,4 +1,11 @@
+version: '2'
 services:
+  app:
+    build:
+      context: ./serene
+      dockerfile: docker/app/Dockerfile
+    volumes:
+      - /srv/docker/app:/var/lib/app
   postgres:
     build:
       context: ./serene
@@ -9,4 +16,3 @@ services:
       - POSTGRES_DB=serene
     volumes:
       - /srv/docker/postgresql:/var/lib/postgresql
-version: '2'
