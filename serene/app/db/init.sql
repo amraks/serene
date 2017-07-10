@@ -7,3 +7,5 @@ CREATE TABLE IF NOT EXISTS serene.public.user (
     last_login TIMESTAMP,
     PRIMARY KEY (email)
 );
+
+INSERT INTO serene.public.user VALUES ('David Tang', 'a@gmail.com', 'asd', 'asd', NOW(), NOW());

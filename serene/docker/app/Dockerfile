@@ -1,4 +1,4 @@
-FROM python:3.6.1-alpine
+FROM uroybd/python3-psycopg2-alpine
 
 ADD app /srv/serene/app
 ADD docker/app/requirements.txt .

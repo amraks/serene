@@ -1,0 +1,86 @@
+[1mdiff --git a/docker-compose.yml b/docker-compose.yml[m
+[1mindex 315df34..5d4a7cd 100644[m
+[1m--- a/docker-compose.yml[m
+[1m+++ b/docker-compose.yml[m
+[36m@@ -1,8 +1,9 @@[m
+[31m-version: '2'[m
+[32m+[m[32mversion: '3.0'[m
+ services:[m
+   app:[m
+     depends_on:[m
+     - postgres[m
+[32m+[m[32m    hostname: app[m
+     build:[m
+       context: ./serene[m
+       dockerfile: docker/app/Dockerfile[m
+[36m@@ -11,6 +12,7 @@[m [mservices:[m
+     ports:[m
+     - 5000:5000[m
+   postgres:[m
+[32m+[m[32m    hostname: postgres[m
+     build:[m
+       context: ./serene[m
+       dockerfile: docker/postgres/Dockerfile[m
+[1mdiff --git a/serene/app/controllers/health.py b/serene/app/controllers/health.py[m
+[1mindex aa94ee4..189fa2c 100644[m
+[1m--- a/serene/app/controllers/health.py[m
+[1m+++ b/serene/app/controllers/health.py[m
+[36m@@ -1,7 +1,7 @@[m
+ from flask import Blueprint[m
+ [m
+[31m-monitor = Blueprint('monitor', __name__, url_prefix="/health")[m
+[32m+[m[32mmonitor = Blueprint("monitor", __name__, url_prefix="/health")[m
+ [m
+[31m-@monitor.route('/')[m
+[32m+[m[32m@monitor.route("/")[m
+ def health():[m
+     return "I'm healthy!"[m
+[1mdiff --git a/serene/app/controllers/main.py b/serene/app/controllers/main.py[m
+[1mindex 8c0344c..68d5091 100644[m
+[1m--- a/serene/app/controllers/main.py[m
+[1m+++ b/serene/app/controllers/main.py[m
+[36m@@ -1,7 +1,15 @@[m
+ from flask import Blueprint[m
+[32m+[m[32mimport psycopg2[m
+ [m
+[31m-root = Blueprint('root', __name__)[m
+[32m+[m[32mroot = Blueprint("root", __name__)[m
+ [m
+[31m-@root.route('/')[m
+[32m+[m[32m@root.route("/")[m
+ def hello():[m
+     return "Hello world!"[m
+[32m+[m
+[32m+[m[32m@root.route("/database")[m
+[32m+[m[32mdef database_entries():[m
+[32m+[m[32m    with psycopg2.connect(host="postgres", database="serene", user="postgres", password="postgres").cursor() as c:[m
+[32m+[m[32m        c.execute("SELECT * FROM serene.public.user")[m
+[32m+[m[32m        return " ".join(str(col) for col in c.fetchone())[m
+[41m+[m
+[1mdiff --git a/serene/app/db/init.sql b/serene/app/db/init.sql[m
+[1mindex 80180ce..d717398 100755[m
+[1m--- a/serene/app/db/init.sql[m
+[1m+++ b/serene/app/db/init.sql[m
+[36m@@ -7,3 +7,5 @@[m [mCREATE TABLE IF NOT EXISTS serene.public.user ([m
+     last_login TIMESTAMP,[m
+     PRIMARY KEY (email)[m
+ );[m
+[32m+[m
+[32m+[m[32mINSERT INTO serene.public.user VALUES ('David Tang', 'a@gmail.com', 'asd', 'asd', NOW(), NOW());[m
+[1mdiff --git a/serene/docker/app/Dockerfile b/serene/docker/app/Dockerfile[m
+[1mindex f5dcdce..fefca0b 100644[m
+[1m--- a/serene/docker/app/Dockerfile[m
+[1m+++ b/serene/docker/app/Dockerfile[m
+[36m@@ -1,4 +1,4 @@[m
+[31m-FROM python:3.6.1-alpine[m
+[32m+[m[32mFROM uroybd/python3-psycopg2-alpine[m
+ [m
+ ADD app /srv/serene/app[m
+ ADD docker/app/requirements.txt .[m
+[1mdiff --git a/serene/docker/app/requirements.txt b/serene/docker/app/requirements.txt[m
+[1mindex 484d3c5..7e10602 100644[m
+[1m--- a/serene/docker/app/requirements.txt[m
+[1m+++ b/serene/docker/app/requirements.txt[m
+[36m@@ -1 +1 @@[m
+[31m-flask==0.12.2[m
+[32m+[m[32mflask[m

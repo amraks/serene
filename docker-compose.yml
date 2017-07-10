@@ -1,8 +1,9 @@
-version: '2'
+version: '3.0'
 services:
   app:
     depends_on:
     - postgres
+    hostname: app
     build:
       context: ./serene
       dockerfile: docker/app/Dockerfile
@@ -11,6 +12,7 @@ services:
     ports:
     - 5000:5000
   postgres:
+    hostname: postgres
     build:
       context: ./serene
       dockerfile: docker/postgres/Dockerfile
