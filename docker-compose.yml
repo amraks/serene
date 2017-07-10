@@ -1,4 +1,4 @@
-version: '3.0'
+version: '2'
 services:
   app:
     depends_on:
@@ -10,7 +10,7 @@ services:
     volumes:
     - /srv/docker/app:/var/lib/app
     ports:
-    - 5000:5000
+    - 80:5000
   postgres:
     hostname: postgres
     build:
