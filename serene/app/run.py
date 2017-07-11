@@ -1,6 +1,6 @@
 from flask import Flask
-from controllers.main import root
-from controllers.health import monitor
+from app.controllers.main import root
+from app.controllers.health import monitor
 
 app = Flask("serene")
 app.register_blueprint(root)

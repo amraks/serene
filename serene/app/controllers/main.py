@@ -1,5 +1,6 @@
+import sys
 from flask import Blueprint
-import psycopg2
+from app.db.utils import get_cursor
 
 root = Blueprint("root", __name__)
 
@@ -9,7 +10,10 @@ def hello():
 
 @root.route("/database")
 def database_entries():
-    with psycopg2.connect(host="postgres", database="serene", user="postgres", password="postgres").cursor() as c:
+    with get_cursor() as c:
+        if not c:
+            sys.stderr.write('Failed to connect to DB')
+            return
         c.execute("SELECT * FROM serene.public.user")
         return " ".join(str(col) for col in c.fetchone())
 
