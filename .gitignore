@@ -102,3 +102,6 @@ ENV/
 
 *.project
 *.pydev*
+
+# NPM modules
+node_modules

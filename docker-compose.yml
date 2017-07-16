@@ -1,7 +1,15 @@
 version: '2'
 services:
+  ui_build:
+    hostname: ui_build
+    build:
+      context: ./serene
+      dockerfile: docker/ui_build/Dockerfile
+    volumes:
+    - ./serene/ui:/ui
   app:
     depends_on:
+    - ui_build
     - postgres
     hostname: app
     build:
