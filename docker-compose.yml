@@ -7,18 +7,18 @@ services:
       dockerfile: docker/ui_build/Dockerfile
     volumes:
     - ./serene/ui:/ui
-  app:
+  serene:
     depends_on:
     - ui_build
     - postgres
-    hostname: app
+    hostname: serene
     build:
       context: ./serene
       dockerfile: docker/app/Dockerfile
     ports:
     - 80:5000
     environment:
-    - PYTHONPATH=/srv/serene
+    - PYTHONPATH=/serene
   postgres:
     hostname: postgres
     build:
