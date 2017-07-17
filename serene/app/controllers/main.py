@@ -1,12 +1,13 @@
 import sys
-from flask import Blueprint
+from flask import Blueprint, current_app
 from app.db.utils import get_cursor
 
 root = Blueprint("root", __name__)
 
-@root.route("/")
-def hello():
-    return "Hello world!"
+
+@root.route('/')
+def index():
+    return current_app.send_static_file('index.html')
 
 @root.route("/database")
 def database_entries():
