@@ -1,4 +1,6 @@
 const path = require('path');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+
 module.exports = {
   entry: './js/index.js',
   output: {
@@ -10,5 +12,10 @@ module.exports = {
       { test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/ },
       { test: /\.jsx$/, loader: 'babel-loader', exclude: /node_modules/ }
     ]
-  }
+  },
+  plugins: [
+    new CopyWebpackPlugin([
+      { from: 'templates/index.html', to: 'index.html' }
+    ])
+  ]
 }
