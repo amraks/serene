@@ -15,7 +15,8 @@ module.exports = {
   },
   plugins: [
     new CopyWebpackPlugin([
-      { from: 'templates/index.html', to: 'index.html' }
+      { from: 'templates/index.html', to: 'index.html' },
+      { from: 'node_modules/normalize.css/normalize.css', to: 'css/normalize.css' }
     ])
   ]
 }
