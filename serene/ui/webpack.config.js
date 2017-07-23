@@ -2,7 +2,7 @@ const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-  entry: './js/index.js',
+  entry: './src/js/index.js',
   output: {
     path: path.resolve('dist'),
     filename: 'serene_bundle.js'
@@ -22,7 +22,7 @@ module.exports = {
   },
   plugins: [
     new CopyWebpackPlugin([
-      { from: 'templates/index.html', to: 'index.html' },
+      { from: 'src/templates/index.html', to: 'index.html' },
       { from: 'node_modules/normalize.css/normalize.css', to: 'css/normalize.css' }
     ])
   ]
