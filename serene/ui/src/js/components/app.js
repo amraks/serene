@@ -1,11 +1,11 @@
 import React from 'react';
 
-import Settings from '../containers/settings';
+import Header from '../containers/header';
 
 export class App extends React.Component {
     render() {
         return (
-            <Settings />
+            <Header />
         );
     }
 }
