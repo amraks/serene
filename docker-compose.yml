@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 services:
   ui_build:
     hostname: ui_build
@@ -12,26 +12,22 @@ services:
   serene:
     depends_on:
     - ui_build
-    - postgres
+    - mongo
     hostname: serene
     build:
       context: ./serene
       dockerfile: docker/app/Dockerfile
     ports:
-    - 80:5000
-    environment:
-    - PYTHONPATH=/serene
-    - PYTHONUNBUFFERED=0
+    - 3000:3000
     volumes:
     - ./serene/ui/dist:/serene/ui
-  postgres:
-    hostname: postgres
+    - mongostore:/data/db
+  mongo:
+    hostname: mongo
     build:
       context: ./serene
-      dockerfile: docker/postgres/Dockerfile
-    environment:
-    - POSTGRES_USER=postgres
-    - POSTGRES_PASSWORD=postgres
-    - POSTGRES_DB=serene
-    volumes:
-    - /srv/docker/postgresql:/var/lib/postgresql
+      dockerfile: docker/mongo/Dockerfile
+    ports:
+    - 27018:27018
+volumes:
+  mongostore:

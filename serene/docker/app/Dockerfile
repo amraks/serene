@@ -1,9 +1,7 @@
-FROM uroybd/python3-psycopg2-alpine
+FROM node:alpine
 
-ADD app /serene/app
-ADD docker/app/requirements.txt .
-RUN pip install -r requirements.txt
-
+ADD app /serene
 WORKDIR /serene
+RUN npm install
 
-ENTRYPOINT ["python", "/serene/app/run.py"]
+ENTRYPOINT ["node", "index.js"]
