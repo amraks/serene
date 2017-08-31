@@ -1,7 +1,7 @@
 import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { doLogin, doLogout } from '../actions/action_login';
+import { doLogin, doLogout } from '../actions/userActions';
 
 import 'bootstrap/dist/css/bootstrap.css';
 
