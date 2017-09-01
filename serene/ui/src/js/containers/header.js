@@ -47,7 +47,7 @@ class Header extends React.Component {
                         <form onSubmit={this.handleLogin} className="navbar-form navbar-right">
                             <div className="form-group">
                                 <input type="text" ref="email" className="form-control" placeholder="Email" />
-                                <input type="text" ref="password" className="form-control" placeholder="Password" />
+                                <input type="password" ref="password" className="form-control" placeholder="Password" />
                             </div>
                             <button type="submit" className="btn btn-default">Login</button>
                         </form>
