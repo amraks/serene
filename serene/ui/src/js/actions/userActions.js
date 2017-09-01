@@ -5,6 +5,7 @@ export const USER_LOGIN_SUCCESS = 'USER_LOGIN_SUCCESS';
 export const USER_LOGOUT = 'USER_LOGOUT';
 
 let userLogInSuccess = email => {
+    console.log('In userLogInSuccess, email=', email)
     return {
         type: USER_LOGIN_SUCCESS,
         payload: email
@@ -35,7 +36,7 @@ export const doLogin = (email, password) => {
         })
         .then(json => {
             console.log('/login json=', json)
-            dispatch(userLogInSuccess(json['email']))
+            dispatch(userLogInSuccess(json[0]['email']))
         })
         .catch(error => {
             dispatch(userLoginFail())

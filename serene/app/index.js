@@ -10,10 +10,10 @@ MongoClient.connect('mongodb://mongo:27017/serene', (err, db) => {
     if (err) throw err
 
     connection = db
-    //connection.createCollection('user', {'strict': true}, (err, collection) => {
-    //    if (err) throw err
-    //    collection.insert({'email': 'dtangster@yahoo.com'})
-    //})
+//    connection.createCollection('user', {'strict': true}, (err, collection) => {
+//       if (err) throw err
+//        collection.insert({'email': 'dtangster@yahoo.com'})
+//    })
 })
 
 app.use(express.static('ui'))
