@@ -4,14 +4,14 @@ export const USER_LOGIN_FAIL = 'USER_LOGIN_FAIL';
 export const USER_LOGIN_SUCCESS = 'USER_LOGIN_SUCCESS';
 export const USER_LOGOUT = 'USER_LOGOUT';
 
-userLogInSuccess = email => {
+let userLogInSuccess = email => {
     return {
         type: USER_LOGIN_SUCCESS,
         payload: email
     }
 }
 
-userLoginFail = () => {
+let userLoginFail = () => {
     return {
         type: USER_LOGIN_FAIL,
         payload: null
@@ -28,7 +28,7 @@ export const doLogout = () => {
 export const doLogin = (email, password) => {
     return dispatch => {
         fetch(LOGIN_URL, {
-            method : 'post'
+            method : 'get'
         })
         .then(response => {
             return response.json()
