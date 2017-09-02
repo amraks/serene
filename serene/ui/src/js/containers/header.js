@@ -1,59 +1,58 @@
 import React from 'react';
+import { Button, Form, FormControl, FormGroup, Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { doLogin, doLogout } from '../actions/userActions';
 
-import 'bootstrap/dist/css/bootstrap.css';
+import { doLogin, doLogout } from '../actions/userActions';
 
 class Header extends React.Component {
     constructor(props, context) {
         super(props, context);
+
         this.handleLogin = this.handleLogin.bind(this);
     }
 
     render() {
         if (this.props.user) {
             return (
-/*
-                <nav className="navbar navbar-default">
-                    <div className="container-fluid">
-                        <div className="collapse navbar-collapse">
-                            <ul className="nav navbar-nav navbar-right">
-                                <li className="dropdown">
-                                    <a href="#" className="dropdown-toggle"
-                                                data-toggle="dropdown"
-                                                role="button"
-                                                aria-haspopup="true"
-                                                aria-expanded="false">{this.props.user} <span className="caret"></span>
-                                    </a>
-                                    <ul className="dropdown-menu">
-                                        <li><a href="#">Settings</a></li>
-                                        <li role="separator" className="divider"></li>
-                                        <li><a href="#" onClick={() => this.props.doLogout()}>Logout</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
-*/
-                <button type="submit" onClick={() => this.props.doLogout()}>Logout</button>
+                <Navbar inverse fluid collapseOnSelect>
+                    <Navbar.Header>
+                        <Navbar.Brand>
+                            <a href="#">Serene</a>
+                        </Navbar.Brand>
+                        <Navbar.Toggle />
+                    </Navbar.Header>
+                    <Navbar.Collapse>
+                        <Nav pullRight>
+                            <NavDropdown title={this.props.user} id="basic-nav-dropdown">
+                                <MenuItem>Action</MenuItem>
+                                <MenuItem divider />
+                                <MenuItem onClick={() => this.props.doLogout()}>Logout</MenuItem>
+                            </NavDropdown>
+                        </Nav>
+                    </Navbar.Collapse>
+                </Navbar>
             );
         }
+
         return (
-            <nav className="navbar navbar-default">
-                <div className="container-fluid">
-                    <div className="collapse navbar-collapse">
-                        <form onSubmit={this.handleLogin} className="navbar-form navbar-right">
-                            <div className="form-group">
-                                <input type="text" ref="email" className="form-control" placeholder="Email" />
-                                <input type="password" ref="password" className="form-control" placeholder="Password" />
-                            </div>
-                            <button type="submit" className="btn btn-default">Login</button>
-                        </form>
-                    </div>
-                </div>
-            </nav>
+            <Navbar inverse fluid collapseOnSelect>
+                <Navbar.Header>
+                    <Navbar.Brand>
+                        <a href="#">Serene</a>
+                    </Navbar.Brand>
+                    <Navbar.Toggle />
+                </Navbar.Header>
+                <Navbar.Form pullRight>
+                    <form onSubmit={this.handleLogin}>
+                        <FormGroup>
+                            <FormControl type="text" placeholder="Email" ref="email" />
+                            <FormControl type="password" placeholder="Password" ref="password" />
+                        </FormGroup>
+                        <Button type="submit">Login</Button>
+                    </form>
+                </Navbar.Form>
+            </Navbar>
         );
     }
 
