@@ -44,13 +44,13 @@ class Header extends React.Component {
                     <Navbar.Toggle />
                 </Navbar.Header>
                 <Navbar.Form pullRight>
-                    <form onSubmit={this.handleLogin}>
+                    <Form onSubmit={this.handleLogin}>
                         <FormGroup>
                             <FormControl type="text" placeholder="Email" ref="email" />
                             <FormControl type="password" placeholder="Password" ref="password" />
                         </FormGroup>
                         <Button type="submit">Login</Button>
-                    </form>
+                    </Form>
                 </Navbar.Form>
             </Navbar>
         );
