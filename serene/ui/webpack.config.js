@@ -8,22 +8,32 @@ module.exports = {
     filename: 'serene_bundle.js'
   },
   module: {
-    loaders: [
-      { test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/ },
-      { test: /\.jsx$/, loader: 'babel-loader', exclude: /node_modules/ },
-      { test: /\.css$/, loader: 'style-loader!css-loader' },
-      { test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
-	loader: 'url-loader',
-	options: {
-          limit: 10000
-        }
-      }
+    rules: [
+      {
+        use: 'babel-loader',
+        test: /\.js$/,
+        exclude: /node_modules/
+      },
+      {
+        use: ['style-loader', 'css-loader', 'sass-loader'],
+        test: /\.s?css$/,
+      },
+      {
+        test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 10000
+            }
+          }
+        ]
+      },
     ]
   },
   plugins: [
     new CopyWebpackPlugin([
-      { from: 'src/templates/index.html', to: 'index.html' },
-      { from: 'node_modules/normalize.css/normalize.css', to: 'css/normalize.css' }
+      { from: 'src/index.html', to: 'index.html' },
     ])
   ]
 }
