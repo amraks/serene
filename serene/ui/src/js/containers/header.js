@@ -2,17 +2,19 @@ import React from 'react';
 import { Button, Form, FormControl, FormGroup, Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import { doLogin, doLogout } from '../actions/userActions';
 
 class Header extends React.Component {
     constructor(props, context) {
         super(props, context);
-
+        console.log('header constructor');
         this.handleLogin = this.handleLogin.bind(this);
     }
 
     render() {
+        console.log('header render');
         if (this.props.user) {
             return (
                 <Navbar inverse fluid collapseOnSelect>
@@ -50,6 +52,9 @@ class Header extends React.Component {
                             <FormControl type="password" placeholder="Password" ref="password" />
                         </FormGroup>
                         <Button type="submit">Login</Button>
+                        <Button type="button">
+                          <Link name="signup" to="/signup">Sign Up</Link>
+                        </Button>
                     </Form>
                 </Navbar.Form>
             </Navbar>

@@ -1,8 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import 'bootstrap/dist/css/bootstrap.css';
-
 class SettingsComponent extends React.Component {
     render() {
         return (
