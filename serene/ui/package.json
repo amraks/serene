@@ -5,7 +5,7 @@
   "main": "webpack.config.js",
   "scripts": {
     "build": "webpack --config webpack.config.js",
-    "dev": "webpack-dev-server --watch --color --host 0.0.0.0"
+    "dev": "webpack-dev-server --watch --color --host 0.0.0.0 --public mindcrunch.com:8080"
   },
   "author": "",
   "license": "MIT",
@@ -31,7 +31,9 @@
     "react-bootstrap": "^0.31.2",
     "react-dom": "^15.6.1",
     "react-redux": "^5.0.5",
+    "react-router": "^4.2.0",
     "redux": "^3.7.2",
+    "redux-form": "^7.0.3",
     "redux-thunk": "^2.2.0"
   }
 }
