@@ -1,16 +1,23 @@
 import React from 'react';
 import { Modal, Button, Popover, Tooltip, OverlayTrigger} from 'react-bootstrap';
-import { BrowserRouter, Route, Link } from 'react-router-dom';
+import { BrowserRouter, Route, Link, Redirect } from 'react-router-dom';
 
 export class SignUp extends React.Component {
 
   constructor(props) {
     super(props);
     this.close = this.close.bind(this);
-    console.log(props.showModal());
+    this.redirectToHome = this.redirectToHome.bind(this);
+    this.state = {show: true}
+  }
+
+  redirectToHome() {
+    console.log('redirectToHome called');
+    <Redirect to="/" push />
   }
 
   close() {
+    this.setState({show: false});
     this.props.toggleModal();
   }
 
@@ -19,6 +26,9 @@ export class SignUp extends React.Component {
    }
 
   render() {
+    if (!this.state.show) {
+      return <Redirect to="/" />
+    }
     const popover = (
       <Popover id="modal-popover" title="popover">
         very popover. such engagement
@@ -33,7 +43,7 @@ export class SignUp extends React.Component {
 
     return (
       <div>
-        <Modal show={this.props.showModal()} onHide={this.close}>
+        <Modal show={this.state.show} onHide={this.close}>
           <Modal.Header closeButton>
             <Modal.Title>Modal heading</Modal.Title>
           </Modal.Header>
@@ -53,9 +63,7 @@ export class SignUp extends React.Component {
             <p>Sign Up Now</p>
           </Modal.Body>
           <Modal.Footer>
-            <Button type="button" onClick={this.close}>
-              <Link to="/">Close</Link>
-            </Button>
+            <Button type="button" onClick={this.close}>Close</Button>
           </Modal.Footer>
         </Modal>
       </div>
