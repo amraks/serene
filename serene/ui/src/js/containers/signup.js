@@ -5,30 +5,25 @@ import { BrowserRouter, Route, Link, Redirect } from 'react-router-dom';
 export class SignUp extends React.Component {
 
   constructor(props) {
+    console.log("SignUp constructor");
     super(props);
     this.close = this.close.bind(this);
-    this.redirectToHome = this.redirectToHome.bind(this);
-    this.state = {show: true}
-  }
-
-  redirectToHome() {
-    console.log('redirectToHome called');
-    <Redirect to="/" push />
+    this.state = {show: true};
   }
 
   close() {
     this.setState({show: false});
-    this.props.toggleModal();
   }
 
-   componentWillUnmount() {
-     console.log('will unmount');
-   }
+  componentWillUnmount() {
+    console.log('will unmount');
+  }
 
   render() {
     if (!this.state.show) {
       return <Redirect to="/" />
     }
+
     const popover = (
       <Popover id="modal-popover" title="popover">
         very popover. such engagement
