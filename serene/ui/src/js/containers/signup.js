@@ -1,20 +1,22 @@
 import React from 'react';
 import { Modal, Button, Popover, Tooltip, OverlayTrigger} from 'react-bootstrap';
-import Header from '../containers/header';
+import { BrowserRouter, Route, Link } from 'react-router-dom';
 
 export class SignUp extends React.Component {
 
-   constructor(props) {
-     super(props);
-     //this.state = { showModal: this.props.route.showModal };
-     this.state = { showModal: this.props.showModal };
-     console.log(this.props);
-     this.close = this.close.bind(this);
-   }
+  constructor(props) {
+    super(props);
+    this.close = this.close.bind(this);
+    console.log(props.showModal());
+  }
 
   close() {
-    this.setState({ showModal: false });
+    this.props.toggleModal();
   }
+
+   componentWillUnmount() {
+     console.log('will unmount');
+   }
 
   render() {
     const popover = (
@@ -31,10 +33,7 @@ export class SignUp extends React.Component {
 
     return (
       <div>
-        {/*<Header />*/}
-        <p>Click to get the full Modal experience!</p>
-
-        <Modal show={this.state.showModal} onHide={this.close}>
+        <Modal show={this.props.showModal()} onHide={this.close}>
           <Modal.Header closeButton>
             <Modal.Title>Modal heading</Modal.Title>
           </Modal.Header>
@@ -54,7 +53,9 @@ export class SignUp extends React.Component {
             <p>Sign Up Now</p>
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={this.close}>Close</Button>
+            <Button type="button" onClick={this.close}>
+              <Link to="/">Close</Link>
+            </Button>
           </Modal.Footer>
         </Modal>
       </div>

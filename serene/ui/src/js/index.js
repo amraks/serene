@@ -14,12 +14,7 @@ const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 
 ReactDOM.render(
     <Provider store={createStoreWithMiddleware(reducers)}>
-      <BrowserRouter>
-        <div>
-          <Route path="/" component={App} />
-          <Route name="signup" path="/signup" render={()=><SignUp showModal={true} />} />
-        </div>
-      </BrowserRouter>
+      <App />
     </Provider>,
     document.querySelector('.app')
 )
