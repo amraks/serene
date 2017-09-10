@@ -1,10 +1,11 @@
 import React from 'react';
-import { Modal, Button, Popover, Tooltip, OverlayTrigger} from 'react-bootstrap';
+import { Modal, Button, Popover, Tooltip, OverlayTrigger, Form, FormGroup, FormControl, Col} from 'react-bootstrap';
 
 export class Login extends React.Component {
 
   constructor(props, ctx) {
       super(props);
+      console.log('Login constructor');
       this.close = this.close.bind(this);
       this.login = this.login.bind(this);
       this.state = {show : true};

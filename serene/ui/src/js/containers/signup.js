@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Form, FormControl, FormGroup, Navbar, Modal, Button, Popover, Tooltip, OverlayTrigger} from 'react-bootstrap';
+import { Col, Form, FormControl, FormGroup, Navbar, Modal, Button} from 'react-bootstrap';
 
 export class SignUp extends React.Component {
 
