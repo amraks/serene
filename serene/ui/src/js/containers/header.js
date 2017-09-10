@@ -11,7 +11,6 @@ class Header extends React.Component {
   constructor(props, context) {
     console.log('header constructor');
     super(props, context);
-    this.handleLogin = this.handleLogin.bind(this);
   }
 
   render() {
@@ -40,37 +39,26 @@ class Header extends React.Component {
 
     return (
       <Navbar inverse fluid collapseOnSelect>
-
         <Navbar.Header>
           <Navbar.Brand>
             <a href="#">Serene</a>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
-
-        <Navbar.Form pullRight>
-          <Form onSubmit={this.handleLogin}>
-            <FormGroup>
-              <FormControl type="text" placeholder="Email" ref="email" />
-              <FormControl type="password" placeholder="Password" ref="password" />
-            </FormGroup>
-            <Button type="submit">Login</Button>
+        <Navbar.Collapse>
+          <Nav pullRight>
             <Button type="button">
+              <Link name="login" to="/login">Login</Link>
+            </Button>
+            <Button>
               <Link name="signup" to="/signup">Sign Up</Link>
             </Button>
-          </Form>
-        </Navbar.Form>
-
+          </Nav>
+        </Navbar.Collapse>
       </Navbar>
     )
   }
 
-  handleLogin(event) {
-    event.preventDefault();
-    const email = this.refs.email.value;
-    const password = this.refs.password.value;
-    this.props.doLogin(email, password);
-  }
 }
 
 function mapStateToProps(state) {
