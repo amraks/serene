@@ -1,5 +1,6 @@
 import React from 'react';
-import { Modal, Button, Popover, Tooltip, OverlayTrigger, Form, FormGroup, FormControl, Col} from 'react-bootstrap';
+import { Modal, Button, Popover, Navbar, Tooltip, OverlayTrigger, Form, FormGroup, FormControl, Col} from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 export class Login extends React.Component {
 
@@ -8,11 +9,10 @@ export class Login extends React.Component {
       console.log('Login constructor');
       this.close = this.close.bind(this);
       this.login = this.login.bind(this);
-      this.state = {show : true};
   }
 
   close() {
-    this.setState({show : false})
+    this.props.history.goBack();
   }
 
   login() {
@@ -22,11 +22,8 @@ export class Login extends React.Component {
   }
 
   render() {
-    if (!this.state.show)
-      this.props.history.goBack();
-
     return (
-      <Modal show={this.state.show} onHide={this.close}>
+      <Modal show={true} onHide={this.close}>
         <Modal.Header closeButton>
           <Modal.Title>Log into your account!</Modal.Title>
         </Modal.Header>
