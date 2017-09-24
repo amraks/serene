@@ -57,6 +57,16 @@ app.post('/signup', (request, response) => {
   })
 })
 
+app.post('/login', (request, response) => {
+  const email = request.body.email;
+  const password = request.body.password;
+
+  response.json({
+    email: email,
+    password: password,
+  })
+})
+
 app.listen(3000, () => {
   console.log('Example app listening on port 3000!')
 })
