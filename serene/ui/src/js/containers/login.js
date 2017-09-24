@@ -6,13 +6,8 @@ export class Login extends React.Component {
 
   constructor(props, ctx) {
       super(props);
-      console.log('Login constructor');
-      this.close = this.close.bind(this);
+      console.log('login constructor called');
       this.login = this.login.bind(this);
-  }
-
-  close() {
-    this.props.history.goBack();
   }
 
   login() {
@@ -22,8 +17,9 @@ export class Login extends React.Component {
   }
 
   render() {
+    console.log('Login modal render');
     return (
-      <Modal show={true} onHide={this.close}>
+      <Modal show={this.props.showLoginCallback()} onHide={this.props.setLoginModalStateCallback}>
         <Modal.Header closeButton>
           <Modal.Title>Log into your account!</Modal.Title>
         </Modal.Header>

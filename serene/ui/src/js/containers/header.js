@@ -2,15 +2,36 @@ import React from 'react';
 import { Button, Form, FormControl, FormGroup, Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { BrowserRouter, Route, Link } from 'react-router-dom';
 
 import { doLogin, doLogout } from '../actions/userActions';
 import { SignUp } from '../containers/signup';
+import { Login } from '../containers/login';
 
 class Header extends React.Component {
   constructor(props, context) {
     console.log('header constructor');
     super(props, context);
+    this.state = {'showLoginModal' : false, 'showSignUpModal' : false};
+    this.displayLoginModal = this.displayLoginModal.bind(this);
+    this.displaySignUpModal = this.displaySignUpModal.bind(this);
+    this.getLoginModalState = this.getLoginModalState.bind(this);
+    this.setLoginModalState = this.setLoginModalState.bind(this);
+  }
+
+  setLoginModalState() {
+    this.setState({'showLoginModal' : false});
+  }
+
+  displayLoginModal() {
+    this.setState({'showLoginModal' : true, 'showSignUpModal' : false});
+  }
+
+  displaySignUpModal() {
+    this.setState({'showLoginModal' : false, 'showSignUpModal' : true});
+  }
+
+  getLoginModalState() {
+    return this.state.showLoginModal;
   }
 
   render() {
@@ -47,12 +68,9 @@ class Header extends React.Component {
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav pullRight>
-            <Button type="button">
-              <Link name="login" to="/login">Login</Link>
-            </Button>
-            <Button>
-              <Link name="signup" to="/signup">Sign Up</Link>
-            </Button>
+            <Button type="button" onClick={this.displayLoginModal}>Login</Button>
+            <Login showLoginCallback={this.getLoginModalState} setLoginModalStateCallback={this.setLoginModalState} />
+            <Button type="button" onClick={this.displaySignUpModal}>SignUp</Button>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
