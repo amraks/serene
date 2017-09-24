@@ -1,17 +1,18 @@
 import React from 'react';
-import { Col, Form, FormControl, FormGroup, Navbar, Modal, Button, Popover, Tooltip, OverlayTrigger} from 'react-bootstrap';
+import { Col, Form, FormControl, FormGroup, Navbar, Modal, Button} from 'react-bootstrap';
 
 export class SignUp extends React.Component {
 
   constructor(props) {
     super(props);
+    console.log('signup init history', this.props.history);
     this.close = this.close.bind(this);
     this.signup = this.signup.bind(this);
-    this.state = {show: true};
   }
 
   close() {
-    this.setState({show: false});
+    console.log('signup close history', this.props.history);
+    this.props.history.goBack();
   }
 
   signup() {
@@ -19,12 +20,8 @@ export class SignUp extends React.Component {
   }
 
   render() {
-    if (!this.state.show) {
-      this.props.history.goBack();
-    }
-
     return (
-      <Modal show={this.state.show} onHide={this.close}>
+      <Modal show={true} onHide={this.close}>
         <Modal.Header closeButton>
           <Modal.Title>New Account</Modal.Title>
         </Modal.Header>
