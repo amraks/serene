@@ -36,7 +36,7 @@ export const doLogin = (email, password) => {
     })
     .then(json => {
       console.log('/login json=', json)
-      dispatch(userLogInSuccess(json[0]['email']))
+      dispatch(userLogInSuccess(json['email']))
     })
     .catch(error => {
       dispatch(userLoginFail())

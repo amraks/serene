@@ -2,14 +2,19 @@
   "name": "serene_server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "body-parser": "^1.18.2",
     "express": "^4.15.4",
-    "mongodb": "^2.2.31"
+    "mocha": "^3.5.2",
+    "mongodb": "^2.2.31",
+    "mongoose": "^4.11.11",
+    "nodemon": "^1.12.0",
+    "uuid": "^3.1.0"
   }
 }
