@@ -3,15 +3,35 @@ import { Button, Form, FormControl, FormGroup, Navbar, Nav, NavItem, NavDropdown
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { doLogout } from '../actions/userActions';
+import { doLogin, doLogout } from '../actions/userActions';
 import { SignUp } from '../containers/signup';
-import Login from '../containers/login';
-import { loadLoginModal, unloadLoginModal, loadSignUpModal, unloadSignUpModal } from '../actions/modalPopUpActions';
+import { Login } from '../containers/login';
 
 class Header extends React.Component {
   constructor(props, context) {
     console.log('header constructor');
     super(props, context);
+    this.state = {'showLoginModal' : false, 'showSignUpModal' : false};
+    this.displayLoginModal = this.displayLoginModal.bind(this);
+    this.displaySignUpModal = this.displaySignUpModal.bind(this);
+    this.getLoginModalState = this.getLoginModalState.bind(this);
+    this.setLoginModalState = this.setLoginModalState.bind(this);
+  }
+
+  setLoginModalState() {
+    this.setState({'showLoginModal' : false});
+  }
+
+  displayLoginModal() {
+    this.setState({'showLoginModal' : true, 'showSignUpModal' : false});
+  }
+
+  displaySignUpModal() {
+    this.setState({'showLoginModal' : false, 'showSignUpModal' : true});
+  }
+
+  getLoginModalState() {
+    return this.state.showLoginModal;
   }
 
   render() {
@@ -48,9 +68,9 @@ class Header extends React.Component {
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav pullRight>
-            <Button type="button" onClick={this.props.loadLoginModal}>Login</Button>
-            <Login />
-            <Button type="button" onClick={this.props.loadSignUpModal}>SignUp</Button>
+            <Button type="button" onClick={this.displayLoginModal}>Login</Button>
+            <Login showLoginCallback={this.getLoginModalState} setLoginModalStateCallback={this.setLoginModalState} />
+            <Button type="button" onClick={this.displaySignUpModal}>SignUp</Button>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
@@ -61,13 +81,12 @@ class Header extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    user: state.user,
-    ui : state.ui
+    user: state.user
   }
 }
 
 function matchDispatchToProps(dispatch) {
-  return bindActionCreators({ loadLoginModal : loadLoginModal, doLogout: doLogout, loadSignUpModal : loadSignUpModal } , dispatch)
+  return bindActionCreators({ doLogin: doLogin, doLogout: doLogout } , dispatch)
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(Header);
