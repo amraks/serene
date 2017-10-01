@@ -1,53 +1,60 @@
 import React from 'react';
-import { Col, Form, FormControl, FormGroup, Navbar, Modal, Button} from 'react-bootstrap';
+import Modal from 'react-modal';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { unloadLoginModal, loadSignUpModal, unloadSignUpModal } from '../actions/modalPopUpActions';
 
 export class SignUp extends React.Component {
 
-  constructor(props) {
-    super(props);
-    console.log('signup init history', this.props.history);
-    this.close = this.close.bind(this);
-    this.signup = this.signup.bind(this);
+  constructor(props, ctx) {
+    super(props, ctx);
   }
 
-  close() {
-    console.log('signup close history', this.props.history);
-    this.props.history.goBack();
-  }
-
-  signup() {
+  handleSignUp() {
     console.log('signup submit');
   }
 
   render() {
+    console.log('load sign up modal render');
+    const customStyles = {
+      content : {
+        top                   : '50%',
+        left                  : '50%',
+        right                 : 'auto',
+        bottom                : 'auto',
+        marginRight           : '-50%',
+        transform             : 'translate(-50%, -50%)'
+      }
+    };
     return (
-      <Modal show={true} onHide={this.close}>
-        <Modal.Header closeButton>
-          <Modal.Title>New Account</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Navbar.Form>
-            <Form horizontal onSubmit={this.signup}>
-              <FormGroup>
-                <Col sm={10}>
-                  <FormControl type="text" placeholder="Email" ref="email" />
-                </Col>
-              </FormGroup>
-              <FormGroup>
-                <Col sm={10}>
-                  <FormControl type="password" placeholder="Password" ref="password" />
-                </Col>
-              </FormGroup>
-              <FormGroup>
-                <Col sm={10}>
-                  <Button type="submit">Submit</Button>
-                </Col>
-              </FormGroup>
-            </Form>
-          </Navbar.Form>
-        </Modal.Body>
-      </Modal>
+      <div>
+        <Modal
+          isOpen={this.props.showSignUp}
+          style={customStyles}
+          onRequestClose={this.props.unloadSignUpModal}
+        >
+          <h2>SignUp!</h2>
+          <form onsubmit={this.handleSignUp.bind(this)}>
+            Name: <input type="text" name="name" /><br />
+            Email: <input type="text" name="email" /><br />
+            Password: <input type="password" name="passwd" /><br />
+            Verify Password: <input type="password" name="vpasswd" /><br />
+            <input type="submit" value="Submit" />
+          </form>
+        </Modal>
+      </div>
     )
   }
 }
 
+function mapStateToProps(state) {
+  return {
+    showSignUp : state.ui.showSignUpModal
+  }
+}
+
+function matchDispatchToProps(dispatch) {
+  return bindActionCreators({ unloadSignUpModal : unloadSignUpModal} , dispatch)
+}
+
+export default connect(mapStateToProps, matchDispatchToProps)(SignUp);
