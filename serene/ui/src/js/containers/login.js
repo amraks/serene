@@ -1,6 +1,9 @@
 import React from 'react';
-import { Modal, Button, Popover, Navbar, Tooltip, OverlayTrigger, Form, FormGroup, FormControl, Col} from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Button, Popover, Navbar, Tooltip, OverlayTrigger, Form, FormGroup, FormControl, Col} from 'react-bootstrap';
+import Modal from 'react-modal';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { unloadLoginModal, loadSignUpModal, unloadSignUpModal } from '../actions/modalPopUpActions';
 
 export class Login extends React.Component {
 
@@ -18,36 +21,42 @@ export class Login extends React.Component {
 
   render() {
     console.log('Login modal render');
+    const customStyles = {
+      content : {
+        top                   : '50%',
+        left                  : '50%',
+        right                 : 'auto',
+        bottom                : 'auto',
+        marginRight           : '-50%',
+        transform             : 'translate(-50%, -50%)'
+      }
+    };
     return (
-      <Modal show={this.props.showLoginCallback()} onHide={this.props.setLoginModalStateCallback}>
-        <Modal.Header closeButton>
-          <Modal.Title>Log into your account!</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Navbar.Form>
-            <Form horizontal onSubmit={this.login}>
-              <FormGroup>
-                <Col sm={10}>
-                  <FormControl type="text" placeholder="Email" ref="email" />
-                </Col>
-              </FormGroup>
-              <FormGroup>
-                <Col sm={10}>
-                  <FormControl type="password" placeholder="Password" ref="password" />
-                </Col>
-              </FormGroup>
-              <FormGroup>
-                <Col sm={10}>
-                  <Button type="submit">Submit</Button>
-                </Col>
-              </FormGroup>
-            </Form>
-          </Navbar.Form>
-          <Link to="/signup">
-            Don't have an account? Sign up
-          </Link>
-        </Modal.Body>
-      </Modal> 
+      <div>
+        <Modal
+          isOpen={this.props.showLogin}
+           onRequestClose={this.props.unloadLoginModal}
+           style={customStyles}
+        >
+        <h2>Login</h2>
+          <form>
+            Email: <input type="text" name="Email" /><br />
+            Password: <input type="password" name="password" />
+          </form>
+        </Modal> 
+      </div>
     ) 
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    showLogin : state.ui.showLoginModal
+  }
+}
+
+function matchDispatchToProps(dispatch) {
+  return bindActionCreators({ unloadLoginModal : unloadLoginModal, loadSignUpModal : loadSignUpModal} , dispatch)
+}
+
+export default connect(mapStateToProps, matchDispatchToProps)(Login);
