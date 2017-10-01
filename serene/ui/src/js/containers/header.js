@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import { doLogout } from '../actions/userActions';
 import { SignUp } from '../containers/signup';
-import { Login } from '../containers/login';
+import Login from '../containers/login';
 import { loadLoginModal, unloadLoginModal, loadSignUpModal, unloadSignUpModal } from '../actions/modalPopUpActions';
 
 class Header extends React.Component {
@@ -62,7 +62,7 @@ class Header extends React.Component {
 function mapStateToProps(state) {
   return {
     user: state.user,
-    showLogin : state.ui.showLoginModal
+    ui : state.ui
   }
 }
 
