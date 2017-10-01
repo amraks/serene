@@ -1,6 +1,5 @@
 const bodyParser = require('body-parser');
 const crypto = require('crypto');
-const hash = crypto.createHash('sha256');
 const mongoose = require('mongoose');
 const express = require('express')
 const path = require('path');
@@ -45,7 +44,7 @@ app.post('/signup', (request, response) => {
 
   const salt = uuidv4();
   const saltedPassword = password + salt;
-  const hashedPassword = hash.update(saltedPassword).digest('hex');
+  const hashedPassword = crypto.createHash('sha256').update(saltedPassword).digest('hex');
 
   // TODO: We need to actually add the user to the DB
   response.json({
