@@ -27,6 +27,8 @@ services:
     build:
       context: ./serene
       dockerfile: docker/mongo/Dockerfile
+    volumes:
+    - mongostore:/data/db
     ports:
     - 27018:27018
 volumes:
