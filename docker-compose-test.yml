@@ -1,0 +1,9 @@
+version: '2'
+services:
+  app_mongo_test:
+    hostname: mongo_test
+    build:
+      context: ./serene
+      dockerfile: docker/app/Dockerfile_test
+    ports:
+    - 27018:27018

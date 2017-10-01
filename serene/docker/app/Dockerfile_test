@@ -1,0 +1,12 @@
+FROM node:alpine
+
+RUN mkdir -p /data/db
+RUN apk update && apk add --no-cache mongodb
+
+COPY app/package.json /app/package.json
+WORKDIR /app
+RUN npm install --no-cache
+
+COPY app /app
+
+CMD ["./run_tests.sh"]

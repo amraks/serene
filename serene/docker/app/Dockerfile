@@ -1,6 +1,6 @@
 FROM node:alpine
 
-ADD app /serene
+COPY app /serene
 WORKDIR /serene
 RUN npm install
 
