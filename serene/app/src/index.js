@@ -32,8 +32,8 @@ app.post('/signup', (request, response) => {
   const password = request.body.password;
   const verifyPassword = request.body.verifyPassword;
 
-  User.findOne({ email: email }).then((data) => { 
-    if (data) {
+  User.findOne({ email: email }).then((user) => {
+    if (user) {
       return response.status(409).send('Email is already registered.');
     }
 
@@ -68,10 +68,20 @@ app.post('/login', (request, response) => {
   const email = request.body.email;
   const password = request.body.password;
 
-  response.json({
-    email: email,
-    password: password,
-  })
+  User.findOne({ email: email }).then((user) => {
+    if (user) {
+      const saltedPassword = password + user.salt;
+      const hashedPassword = crypto.createHash('sha256').update(saltedPassword).digest('hex');
+
+      if (hashedPassword === user.password) {
+        response.json({
+          email: email
+        })
+      }
+    }
+
+    response.status(401).send('Invalid email or password.');
+  });
 })
 
 app.listen(3000, () => {
