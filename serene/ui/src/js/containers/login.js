@@ -75,7 +75,7 @@ function mapStateToProps(state) {
 function matchDispatchToProps(dispatch) {
   const actionCreatorsMapping = {
     unloadLoginModal : unloadLoginModal,
-    loadSignUpModal : loadSignUpModal
+    loadSignUpModal : loadSignUpModal,
     doLogin : doLogin
   }
   return bindActionCreators(actionCreatorsMapping, dispatch);
