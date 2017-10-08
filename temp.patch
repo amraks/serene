@@ -1,0 +1,202 @@
+diff --git serene/ui/src/js/actions/modalPopUpActions.js serene/ui/src/js/actions/modalPopUpActions.js
+new file mode 100644
+index 0000000..334c2c6
+--- /dev/null
++++ serene/ui/src/js/actions/modalPopUpActions.js
+@@ -0,0 +1,32 @@
++export const LOAD_LOGIN_MODAL = 'LOAD_LOGIN_MODAL';
++export const LOAD_SIGNUP_MODAL = 'LOAD_SINGUP_MODAL';
++export const UNLOAD_LOGIN_MODAL = 'UNLOAD_LOGIN_MODAL';
++export const UNLOAD_SIGNUP_MODAL = 'UNLOAD_SIGNUP_MODAL';
++
++export const loadLoginModal = () => {
++  console.log('action: loadLoginModal');
++  return {
++    type : LOAD_LOGIN_MODAL
++  }
++}
++
++export const loadSignUpModal = () => {
++  console.log('action: loadSignUpModal');
++  return {
++    type : LOAD_SIGNUP_MODAL
++  }
++}
++
++export const unloadLoginModal = () => {
++  console.log('action: unloadLoginModal');
++  return {
++    type : UNLOAD_LOGIN_MODAL
++  }
++}
++
++export const unloadSignUpModal = () => {
++  console.log('action: unloadSignUpModal');
++  return {
++    type : UNLOAD_SIGNUP_MODAL
++  }
++}
+diff --git serene/ui/src/js/containers/header.js serene/ui/src/js/containers/header.js
+index fa5ad45..5643a7f 100644
+--- serene/ui/src/js/containers/header.js
++++ serene/ui/src/js/containers/header.js
+@@ -3,35 +3,15 @@ import { Button, Form, FormControl, FormGroup, Navbar, Nav, NavItem, NavDropdown
+ import { bindActionCreators } from 'redux';
+ import { connect } from 'react-redux';
+ 
+-import { doLogin, doLogout } from '../actions/userActions';
++import { doLogout } from '../actions/userActions';
+ import { SignUp } from '../containers/signup';
+-import { Login } from '../containers/login';
++import Login from '../containers/login';
++import { loadLoginModal, unloadLoginModal, loadSignUpModal, unloadSignUpModal } from '../actions/modalPopUpActions';
+ 
+ class Header extends React.Component {
+   constructor(props, context) {
+     console.log('header constructor');
+     super(props, context);
+-    this.state = {'showLoginModal' : false, 'showSignUpModal' : false};
+-    this.displayLoginModal = this.displayLoginModal.bind(this);
+-    this.displaySignUpModal = this.displaySignUpModal.bind(this);
+-    this.getLoginModalState = this.getLoginModalState.bind(this);
+-    this.setLoginModalState = this.setLoginModalState.bind(this);
+-  }
+-
+-  setLoginModalState() {
+-    this.setState({'showLoginModal' : false});
+-  }
+-
+-  displayLoginModal() {
+-    this.setState({'showLoginModal' : true, 'showSignUpModal' : false});
+-  }
+-
+-  displaySignUpModal() {
+-    this.setState({'showLoginModal' : false, 'showSignUpModal' : true});
+-  }
+-
+-  getLoginModalState() {
+-    return this.state.showLoginModal;
+   }
+ 
+   render() {
+@@ -68,9 +48,9 @@ class Header extends React.Component {
+         </Navbar.Header>
+         <Navbar.Collapse>
+           <Nav pullRight>
+-            <Button type="button" onClick={this.displayLoginModal}>Login</Button>
+-            <Login showLoginCallback={this.getLoginModalState} setLoginModalStateCallback={this.setLoginModalState} />
+-            <Button type="button" onClick={this.displaySignUpModal}>SignUp</Button>
++            <Button type="button" onClick={this.props.loadLoginModal}>Login</Button>
++            <Login />
++            <Button type="button" onClick={this.props.loadSignUpModal}>SignUp</Button>
+           </Nav>
+         </Navbar.Collapse>
+       </Navbar>
+@@ -81,12 +61,13 @@ class Header extends React.Component {
+ 
+ function mapStateToProps(state) {
+   return {
+-    user: state.user
++    user: state.user,
++    ui : state.ui
+   }
+ }
+ 
+ function matchDispatchToProps(dispatch) {
+-  return bindActionCreators({ doLogin: doLogin, doLogout: doLogout } , dispatch)
++  return bindActionCreators({ loadLoginModal : loadLoginModal, doLogout: doLogout, loadSignUpModal : loadSignUpModal } , dispatch)
+ }
+ 
+ export default connect(mapStateToProps, matchDispatchToProps)(Header);
+diff --git serene/ui/src/js/containers/login.js serene/ui/src/js/containers/login.js
+index a5d024d..6d4ac58 100644
+--- serene/ui/src/js/containers/login.js
++++ serene/ui/src/js/containers/login.js
+@@ -1,6 +1,8 @@
+ import React from 'react';
+ import { Modal, Button, Popover, Navbar, Tooltip, OverlayTrigger, Form, FormGroup, FormControl, Col} from 'react-bootstrap';
+-import { Link } from 'react-router-dom';
++import { bindActionCreators } from 'redux';
++import { connect } from 'react-redux';
++import { unloadLoginModal, loadSignUpModal, unloadSignUpModal } from '../actions/modalPopUpActions';
+ 
+ export class Login extends React.Component {
+ 
+@@ -19,7 +21,7 @@ export class Login extends React.Component {
+   render() {
+     console.log('Login modal render');
+     return (
+-      <Modal show={this.props.showLoginCallback()} onHide={this.props.setLoginModalStateCallback}>
++      <Modal show={this.props.showLogin} onHide={this.props.unloadLoginModal}>
+         <Modal.Header closeButton>
+           <Modal.Title>Log into your account!</Modal.Title>
+         </Modal.Header>
+@@ -43,11 +45,23 @@ export class Login extends React.Component {
+               </FormGroup>
+             </Form>
+           </Navbar.Form>
+-          <Link to="/signup">
+-            Don't have an account? Sign up
+-          </Link>
++          <div>
++            Don't have an account?<Button type="button" onClick="this.props.loadSignUpModal">Sign Up</Button>
++          </div>
+         </Modal.Body>
+       </Modal> 
+     ) 
+   }
+ }
++
++function mapStateToProps(state) {
++  return {
++    showLogin : state.ui.showLoginModal
++  }
++}
++
++function matchDispatchToProps(dispatch) {
++  return bindActionCreators({ unloadLoginModal : unloadLoginModal, loadSignUpModal : loadSignUpModal} , dispatch)
++}
++
++export default connect(mapStateToProps, matchDispatchToProps)(Login);
+diff --git serene/ui/src/js/reducers/index.js serene/ui/src/js/reducers/index.js
+index 5c71987..91611df 100644
+--- serene/ui/src/js/reducers/index.js
++++ serene/ui/src/js/reducers/index.js
+@@ -2,10 +2,12 @@ import { combineReducers } from 'redux';
+ 
+ import SettingsReducer from './reducer_settings';
+ import UserReducer from './reducer_user';
++import UIReducer from './reducer_ui';
+ 
+ const rootReducer = combineReducers({
+     settings: SettingsReducer,
+-    user: UserReducer
++    user: UserReducer,
++    ui : UIReducer
+ });
+ 
+ export default rootReducer;
+diff --git serene/ui/src/js/reducers/reducer_ui.js serene/ui/src/js/reducers/reducer_ui.js
+new file mode 100644
+index 0000000..1164757
+--- /dev/null
++++ serene/ui/src/js/reducers/reducer_ui.js
+@@ -0,0 +1,18 @@
++import { LOAD_LOGIN_MODAL, UNLOAD_LOGIN_MODAL, LOAD_SIGNUP_MODAL, UNLOAD_SIGNUP_MODAL } from '../actions/modalPopUpActions';
++
++const initialModalState = {'showLoginModal' : false, 'showSignUpModal' : false}
++
++export default function modalReducer(state = initialModalState, action) {
++  console.log('modal reducer, action.type=', action.type);
++  switch(action.type) {
++    case LOAD_LOGIN_MODAL:
++      return { showSignUpModal : false, showLoginModal : true };
++    case UNLOAD_LOGIN_MODAL:
++      return { showSignUpModal : false, showLoginModal : false };
++    case LOAD_SIGNUP_MODAL:
++      return { showSignUpModal : true, showLoginModal : false };
++    case UNLOAD_SIGNUP_MODAL:
++      return { showSignUpModal : false, showLoginModal : false };
++  }
++  return state;
++}

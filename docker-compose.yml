@@ -21,7 +21,7 @@ services:
     - 3000:3000
     volumes:
     - ./serene/app:/serene
-    - ./serene/ui/dist:/serene/ui
+    - ./serene/ui/dist:/ui
     - mongostore:/data/db
   mongo:
     hostname: mongo

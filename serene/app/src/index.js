@@ -20,7 +20,7 @@ mongoose.connection
 
 const app = express()
 
-app.use(express.static('ui'))
+app.use(express.static('/ui'))
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
