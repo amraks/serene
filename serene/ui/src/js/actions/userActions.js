@@ -32,6 +32,7 @@ export const doLogin = (email, password) => {
       method : 'post'
     })
     .then(response => {
+      console.log('response=', response)
       return response.json()
     })
     .then(json => {
