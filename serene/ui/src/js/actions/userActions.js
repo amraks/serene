@@ -8,7 +8,7 @@ let userLogInSuccess = email => {
   console.log('In userLogInSuccess, email=', email)
   return {
     type: USER_LOGIN_SUCCESS,
-      payload: email
+    payload: email
   }
 }
 

@@ -4,6 +4,7 @@ import Modal from 'react-modal';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { unloadLoginModal, loadSignUpModal, unloadSignUpModal } from '../actions/modalPopUpActions';
+import { doLogin } from '../actions/userActions';
 
 export class Login extends React.Component {
 
@@ -23,6 +24,7 @@ export class Login extends React.Component {
     console.log('Logging user in');
     console.log('email:', this.state.email);
     console.log('passwd:', this.state.passwd);
+    this.props.doLogin(this.state.email, this.state.passwd);
   }
 
   onFieldChange(e) {
@@ -71,7 +73,12 @@ function mapStateToProps(state) {
 }
 
 function matchDispatchToProps(dispatch) {
-  return bindActionCreators({ unloadLoginModal : unloadLoginModal, loadSignUpModal : loadSignUpModal} , dispatch)
+  const actionCreatorsMapping = {
+    unloadLoginModal : unloadLoginModal,
+    loadSignUpModal : loadSignUpModal
+    doLogin : doLogin
+  }
+  return bindActionCreators(actionCreatorsMapping, dispatch);
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(Login);
