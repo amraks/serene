@@ -8,7 +8,7 @@ let userLogInSuccess = email => {
   console.log('In userLogInSuccess, email=', email)
   return {
     type: USER_LOGIN_SUCCESS,
-      payload: email
+    payload: email
   }
 }
 
@@ -29,9 +29,10 @@ export const doLogout = () => {
 export const doLogin = (email, password) => {
   return dispatch => {
     fetch(LOGIN_URL, {
-      method : 'get'
+      method : 'post'
     })
     .then(response => {
+      console.log('response=', response)
       return response.json()
     })
     .then(json => {
