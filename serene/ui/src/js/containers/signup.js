@@ -10,7 +10,8 @@ export class SignUp extends React.Component {
     super(props, ctx);
   }
 
-  handleSignUp() {
+  handleSignUp(e) {
+    e.preventDefault();
     console.log('signup submit');
   }
 

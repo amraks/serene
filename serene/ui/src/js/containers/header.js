@@ -49,8 +49,8 @@ class Header extends React.Component {
         <Navbar.Collapse>
           <Nav pullRight>
             <Button type="button" onClick={this.props.loadLoginModal}>Login</Button>
-            <Login />
             <Button type="button" onClick={this.props.loadSignUpModal}>SignUp</Button>
+            <Login />
             <SignUp />
           </Nav>
         </Navbar.Collapse>
