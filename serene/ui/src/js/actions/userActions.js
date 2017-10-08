@@ -29,7 +29,7 @@ export const doLogout = () => {
 export const doLogin = (email, password) => {
   return dispatch => {
     fetch(LOGIN_URL, {
-      method : 'get'
+      method : 'post'
     })
     .then(response => {
       return response.json()
