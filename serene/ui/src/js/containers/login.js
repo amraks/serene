@@ -56,8 +56,10 @@ export class Login extends React.Component {
         >
         <h2>Login</h2>
           <form onSubmit={this.login}>
-            Email: <input type="text" name="email" value={email} onChange={this.onFieldChange} /><br />
+            Email: <input type="text" name="email" value={email} onChange={this.onFieldChange} />
+            <br />
             Password: <input type="password" name="passwd" value={passwd} onChange={this.onFieldChange} />
+            <br />
             <input type="submit" value="Submit" />
           </form>
         </Modal>
