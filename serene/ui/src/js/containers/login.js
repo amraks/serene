@@ -21,8 +21,8 @@ export class Login extends React.Component {
   login(e) {
     e.preventDefault();
     console.log('Logging user in');
-    console.log('email:', this.refs.loginEmail.value);
-    console.log('passwd:', this.refs.loginPasswd.value);
+    console.log('email:', this.state.email);
+    console.log('passwd:', this.state.passwd);
   }
 
   onFieldChange(e) {
