@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
 before((done) => {
-  mongoose.connect('mongodb://127.0.0.1/user_test');
+  mongoose.connect('mongodb://127.0.0.1/user');
   mongoose.connection
     .once('open', () => {
       done();
@@ -14,7 +14,7 @@ before((done) => {
 });
 
 beforeEach((done) => {
-  mongoose.connection.collections.users.drop(() => {
+  mongoose.connection.collections.user.drop(() => {
     done();
   });
 });

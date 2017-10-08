@@ -5,10 +5,7 @@ const express = require('express')
 const path = require('path');
 const uuidv4 = require('uuid/v4');
 
-const User = require('./user');
-const UserModel = mongoose.model('user');
-
-mongoose.connect('mongodb://mongo/user');
+mongoose.connect('mongodb://mongo/serene');
 
 mongoose.connection
   .once('open', () => { 
@@ -17,6 +14,8 @@ mongoose.connection
   .on('error', (error) => {
     throw error;
   });
+
+const User = require('./user');
 
 const app = express()
 
@@ -33,37 +32,36 @@ app.post('/signup', (request, response) => {
   const password = request.body.password;
   const verifyPassword = request.body.verifyPassword;
 
-  UserModel.findOne({ email: email }).then((err, existingUser) => {
-    if (existingUser) {
-      response.status(409).send('Email is already registered.')
+  User.findOne({ email: email }).then((data) => { 
+    if (data) {
+      return response.status(409).send('Email is already registered.');
     }
+
+    if (password != verifyPassword) {
+      return response.status(400).send('Passwords do not match.');
+    }
+
+    const salt = uuidv4();
+    const saltedPassword = password + salt;
+    const hashedPassword = crypto.createHash('sha256').update(saltedPassword).digest('hex');
+
+    const newUser = new User({
+      email: email,
+      password: hashedPassword,
+      salt: salt
+    });
+
+    // TODO: Use promise here and wrap the respose.json() call
+    newUser.save();
+
+    response.json({
+      email: email,
+      password: password,
+      salt: salt,
+      saltedPassword: saltedPassword,
+      hashedPassword: hashedPassword
+    })
   });
-
-  if (password != verifyPassword) {
-    response.status(400).send('Passwords do not match.')
-  }
-
-  const salt = uuidv4();
-  const saltedPassword = password + salt;
-  const hashedPassword = crypto.createHash('sha256').update(saltedPassword).digest('hex');
-
-  const newUser = new User({
-    email: email,
-    password: hashedPassword,
-    salt: salt
-  });
-  console.log("New user created: ", newUser);
-  newUser.save();
-  console.log("New user saved");
-
-  // TODO: We need to actually add the user to the DB
-  response.json({
-    email: email,
-    password: password,
-    salt: salt,
-    saltedPassword: saltedPassword,
-    hashedPassword: hashedPassword
-  })
 })
 
 app.post('/login', (request, response) => {
