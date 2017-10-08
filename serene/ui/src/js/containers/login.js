@@ -11,12 +11,25 @@ export class Login extends React.Component {
       super(props);
       console.log('login constructor called');
       this.login = this.login.bind(this);
+      this.onFieldChange = this.onFieldChange.bind(this);
+      this.state = {
+        email : '',
+        passwd : ''
+      }
   }
 
-  login() {
+  login(e) {
+    e.preventDefault();
     console.log('Logging user in');
     console.log('email:', this.refs.loginEmail.value);
     console.log('passwd:', this.refs.loginPasswd.value);
+  }
+
+  onFieldChange(e) {
+    //e.preventDefault();
+    const state = this.state;
+    state[e.target.name] = e.target.value;
+    this.setState(state);
   }
 
   render() {
@@ -31,6 +44,7 @@ export class Login extends React.Component {
         transform             : 'translate(-50%, -50%)'
       }
     };
+    const { email, passwd} = this.state;
     return (
       <div>
         <Modal
@@ -40,8 +54,8 @@ export class Login extends React.Component {
         >
         <h2>Login</h2>
           <form onSubmit={this.login}>
-            Email: <input type="text" name="Email" ref="loginEmail" /><br />
-            Password: <input type="password" name="password" ref="loginPasswd" />
+            Email: <input type="text" name="email" value={email} onChange={this.onFieldChange} /><br />
+            Password: <input type="password" name="passwd" value={passwd} onChange={this.onFieldChange} />
             <input type="submit" value="Submit" />
           </form>
         </Modal>
