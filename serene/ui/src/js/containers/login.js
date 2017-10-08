@@ -15,8 +15,8 @@ export class Login extends React.Component {
 
   login() {
     console.log('Logging user in');
-    console.log('email:', this.refs.email.value);
-    console.log('passwd:', this.refs.password.value);
+    console.log('email:', this.refs.loginEmail.value);
+    console.log('passwd:', this.refs.loginPasswd.value);
   }
 
   render() {
@@ -39,13 +39,14 @@ export class Login extends React.Component {
            style={customStyles}
         >
         <h2>Login</h2>
-          <form>
-            Email: <input type="text" name="Email" /><br />
-            Password: <input type="password" name="password" />
+          <form onSubmit={this.login}>
+            Email: <input type="text" name="Email" ref="loginEmail" /><br />
+            Password: <input type="password" name="password" ref="loginPasswd" />
+            <input type="submit" value="Submit" />
           </form>
-        </Modal> 
+        </Modal>
       </div>
-    ) 
+    )
   }
 }
 
