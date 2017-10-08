@@ -20,6 +20,7 @@ services:
     ports:
     - 3000:3000
     volumes:
+    - ./serene/app:/serene
     - ./serene/ui/dist:/serene/ui
     - mongostore:/data/db
   mongo:

@@ -6,6 +6,7 @@ const path = require('path');
 const uuidv4 = require('uuid/v4');
 
 const User = require('./user');
+const UserModel = mongoose.model('user');
 
 mongoose.connect('mongodb://mongo/user');
 
@@ -32,11 +33,11 @@ app.post('/signup', (request, response) => {
   const password = request.body.password;
   const verifyPassword = request.body.verifyPassword;
 
-  // Placeholder until we implement the logic
-  const userExists = false;
-  if (userExists) {
-    response.status(409).send('Email is already registered.')
-  }
+  UserModel.findOne({ email: email }).then((err, existingUser) => {
+    if (existingUser) {
+      response.status(409).send('Email is already registered.')
+    }
+  });
 
   if (password != verifyPassword) {
     response.status(400).send('Passwords do not match.')
@@ -45,6 +46,15 @@ app.post('/signup', (request, response) => {
   const salt = uuidv4();
   const saltedPassword = password + salt;
   const hashedPassword = crypto.createHash('sha256').update(saltedPassword).digest('hex');
+
+  const newUser = new User({
+    email: email,
+    password: hashedPassword,
+    salt: salt
+  });
+  console.log("New user created: ", newUser);
+  newUser.save();
+  console.log("New user saved");
 
   // TODO: We need to actually add the user to the DB
   response.json({
