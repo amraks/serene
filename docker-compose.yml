@@ -23,6 +23,8 @@ services:
     - ./serene/app:/serene
     - ./serene/ui/dist:/ui
     - mongostore:/data/db
+    - coderunner:/coderunner
+    - /var/run/docker.sock:/var/run/docker.sock
   mongo:
     hostname: mongo
     build:
@@ -33,4 +35,7 @@ services:
     ports:
     - 27018:27018
 volumes:
+  coderunner:
+    external: true
   mongostore:
+    external: true

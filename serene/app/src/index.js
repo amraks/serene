@@ -1,7 +1,10 @@
 const bodyParser = require('body-parser');
+const { spawn } = require('child_process');
 const crypto = require('crypto');
-const mongoose = require('mongoose');
 const express = require('express')
+const fs = require('fs');
+const mongoose = require('mongoose');
+const os = require('os');
 const path = require('path');
 const uuidv4 = require('uuid/v4');
 
@@ -81,6 +84,28 @@ app.post('/login', (request, response) => {
     }
 
     response.status(401).send('Invalid email or password.');
+  });
+})
+
+app.post('/runcode', (request, response) => {
+  const code = request.body.code.replace(/\\n/, os.EOL);
+  const tempFile = '/coderunner/' + uuidv4();
+
+  console.log(`Creating file ${tempFile} with contents: \n${code}`);
+
+  fs.writeFile(tempFile, code, (err) => {
+    if (err) {
+      response.status(500).send('Could not create source file to run.');
+      throw err;
+    }
+  });
+
+  p = spawn('docker', ['run', '-v', 'coderunner:/coderunner', 'python2:coderunner', tempFile])
+
+  p.stdout.on('data', (data) => {
+    response.json({
+      data: data.toString()
+    })
   });
 })
 
