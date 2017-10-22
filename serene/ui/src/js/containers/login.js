@@ -3,7 +3,7 @@ import { Button, Popover, Navbar, Tooltip, OverlayTrigger, Form, FormGroup, Form
 import Modal from 'react-modal';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { unloadLoginModal, loadSignUpModal, unloadSignUpModal } from '../actions/modalPopUpActions';
+import { unloadLoginModal, unloadSignUpModal } from '../actions/modalPopUpActions';
 import { doLogin } from '../actions/userActions';
 
 export class Login extends React.Component {
@@ -77,7 +77,6 @@ function mapStateToProps(state) {
 function matchDispatchToProps(dispatch) {
   const actionCreatorsMapping = {
     unloadLoginModal : unloadLoginModal,
-    loadSignUpModal : loadSignUpModal,
     doLogin : doLogin
   }
   return bindActionCreators(actionCreatorsMapping, dispatch);
