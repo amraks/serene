@@ -4,6 +4,7 @@ const crypto = require('crypto');
 const express = require('express')
 const fs = require('fs');
 const mongoose = require('mongoose');
+const os = require('os');
 const path = require('path');
 const uuidv4 = require('uuid/v4');
 
@@ -87,10 +88,10 @@ app.post('/login', (request, response) => {
 })
 
 app.post('/runcode', (request, response) => {
-  const code = request.body.code;
+  const code = request.body.code.replace(/\\n/, os.EOL);
   const tempFile = '/coderunner/' + uuidv4();
 
-  console.log("request received. creating file ", tempFile);
+  console.log(`Creating file ${tempFile} with contents: \n${code}`);
 
   fs.writeFile(tempFile, code, (err) => {
     if (err) {
