@@ -3,16 +3,33 @@ import Modal from 'react-modal';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { unloadLoginModal, loadSignUpModal, unloadSignUpModal } from '../actions/modalPopUpActions';
+import { doSignUp } from '../actions/userActions';
 
 export class SignUp extends React.Component {
 
   constructor(props, ctx) {
     super(props, ctx);
+    this.state = {
+      name : '',
+      email : '',
+      passwd : '',
+      verifyPasswd : ''
+    }
+    this.handleSignUp = this.handleSignUp.bind(this);
+    this.onFieldChange = this.onFieldChange.bind(this);
   }
 
   handleSignUp(e) {
     e.preventDefault();
     console.log('signup submit');
+    this.props.doSignUp(this.state.name, this.state.email, this.state.passwd, this.state.verifyPasswd);
+  }
+
+  onFieldChange(e) {
+    e.preventDefault();
+    let state = Object.assign({}, this.state);
+    state[e.target.name] = e.target.value;
+    this.setState(state);
   }
 
   render() {
@@ -35,11 +52,11 @@ export class SignUp extends React.Component {
           onRequestClose={this.props.unloadSignUpModal}
         >
           <h2>SignUp!</h2>
-          <form onsubmit={this.handleSignUp.bind(this)}>
-            Name: <input type="text" name="name" /><br />
-            Email: <input type="text" name="email" /><br />
-            Password: <input type="password" name="passwd" /><br />
-            Verify Password: <input type="password" name="vpasswd" /><br />
+          <form onSubmit={this.handleSignUp.bind(this)}>
+            Name: <input type="text" name="name" value={this.state.name} onChange={this.onFieldChange} /><br />
+            Email: <input type="text" name="email" value={this.state.email} onChange={this.onFieldChange} /><br />
+            Password: <input type="password" name="passwd" value={this.state.passwd} onChange={this.onFieldChange} /><br />
+            Verify Password: <input type="password" name="verifyPasswd" value={this.state.verifyPasswd} onChange={this.onFieldChange} /><br />
             <input type="submit" value="Submit" />
           </form>
         </Modal>
@@ -55,7 +72,11 @@ function mapStateToProps(state) {
 }
 
 function matchDispatchToProps(dispatch) {
-  return bindActionCreators({ unloadSignUpModal : unloadSignUpModal} , dispatch)
+  const mapping = {
+    unloadSignUpModal : unloadSignUpModal,
+    doSignUp : doSignUp
+  };
+  return bindActionCreators(mapping, dispatch);
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(SignUp);

@@ -70,7 +70,7 @@ export const doLogin = (email, password) => {
   }
 }
 
-export const doSignUp = (email, passwd, vpasswd) => {
+export const doSignUp = (name, email, passwd, vpasswd) => {
   return dispatch => {
     fetch(SIGN_UP_URL, {
       method : 'post',
@@ -78,8 +78,9 @@ export const doSignUp = (email, passwd, vpasswd) => {
         'Content-Type' : 'application/json'
       },
       body : JSON.stringify({
+        name : name,
         email : email,
-        password : password,
+        password : passwd,
         verifyPassword : vpasswd
       })
     })
