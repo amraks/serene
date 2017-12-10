@@ -51,6 +51,11 @@ services:
     image: wurstmeister/zookeeper
     ports:
       - 2181:2181
+  kafka-client:
+    hostname: kafka-client
+    build:
+      context: ./serene
+      dockerfile: docker/kafka-client/Dockerfile
 
 volumes:
   coderunner:
